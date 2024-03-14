@@ -44,12 +44,35 @@ router.get('/list', async (req, res) => {
     }
 });
 
+// Get single blog route
+router.get('/:blogId', async (req, res) => {
+    try {
+        const blogId = req.params.blogId;
+        const blog = await Blog.findById(blogId);
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found",
+            });
+        }
+        res.status(200).json({
+            success: true,
+            blog,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
 // Update blog route
 router.put('/update/:blogId', async (req, res) => {
     try {
         const blogId = req.params.blogId;
         const updatedBlog = await Blog.findByIdAndUpdate(blogId, req.body, { new: true });
-
+        console.log('Updated Blog:', updatedBlog);
         if (!updatedBlog) {
             return res.status(404).json({
                 success: false,

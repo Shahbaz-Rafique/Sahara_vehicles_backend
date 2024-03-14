@@ -50,6 +50,29 @@ router.get('/list', async (req, res) => {
     }
 });
 
+// Get single car route
+router.get('/:carId', async (req, res) => {
+    try {
+        const carId = req.params.carId;
+        const car = await Car.findById(carId);
+        if (!car) {
+            return res.status(404).json({
+                success: false,
+                message: "Car not found",
+            });
+        }
+        res.status(200).json({
+            success: true,
+            car,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
 // Update car route
 router.put('/update/:carId', async (req, res) => {
     try {
