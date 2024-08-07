@@ -1,21 +1,21 @@
 const multer = require('multer');
 
 const profile_images_storage = multer.diskStorage({
-    destination: 'upload/profile_images',
+    destination: 'uploads/profile_images',
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
     },
 });
 
 const blog_image_storage = multer.diskStorage({
-    destination: 'upload/blogs_images',
+    destination: 'uploads/blogs_images',
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
     },
 });
 
 const car_image_storage = multer.diskStorage({
-    destination: 'upload/cars_images',
+    destination: 'uploads/cars_images',
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
     },

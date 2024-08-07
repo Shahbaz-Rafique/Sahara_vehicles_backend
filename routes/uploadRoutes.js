@@ -24,7 +24,7 @@ router.post('/blog', blog_upload.single('blog_image'), (req, res) => {
     res.json({
         success: 1,
         blog: {
-            url: `${serverUrl}api/upload/blogs_images/${req.file.filename}`,
+            url: `${req.file.filename}`,
         },
     });
 });

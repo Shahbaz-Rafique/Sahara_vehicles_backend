@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Car = require('../models/carModel');
 
 // Car registration route
@@ -49,6 +50,29 @@ router.get('/list', async (req, res) => {
         });
     }
 });
+
+router.post('/buy',async (req,res)=>{
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+            {
+                price_data: {
+                    currency: 'pkr',
+                    product_data: {
+                        name: '',
+                        images:[``],
+                    },
+                    unit_amount: 100, 
+                },
+                quantity: quantity,
+            },
+        ],
+        mode: 'payment',
+        success_url: `http://localhost:4000/buy?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: 'http://localhost:3000/cancel',
+    });
+    response.status(200).json({ sessionUrl: session.url });
+})
 
 // Get single car route
 router.get('/:carId', async (req, res) => {
